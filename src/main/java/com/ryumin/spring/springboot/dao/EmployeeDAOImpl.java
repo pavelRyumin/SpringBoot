@@ -2,6 +2,7 @@ package com.ryumin.spring.springboot.dao;
 
 import com.ryumin.spring.springboot.entity.Employee;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,24 +23,24 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return allEmployees;
     }
 
-//    @Override
-//    public void saveEmployee(Employee employee) {
-//        Session session = sessionFactory.getCurrentSession();
-//        session.saveOrUpdate(employee);
-//    }
-//
-//    @Override
-//    public Employee getEmployee(int id) {
-//        Session session = sessionFactory.getCurrentSession();
-//        Employee employee = session.get(Employee.class, id);
-//        return employee;
-//    }
-//
-//    @Override
-//    public void deleteEmployee(int id) {
-//        Session session = sessionFactory.getCurrentSession();
-//        Query query = session.createQuery("DELETE FROM Employee WHERE id =: employeeId");
-//        query.setParameter("employeeId", id);
-//        query.executeUpdate();
-//    }
+    @Override
+    public void saveEmployee(Employee employee) {
+        Session session = entityManager.unwrap(Session.class);
+        session.saveOrUpdate(employee);
+    }
+
+    @Override
+    public Employee getEmployee(int id) {
+        Session session = entityManager.unwrap(Session.class);
+        Employee employee = session.get(Employee.class, id);
+        return employee;
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+        Session session = entityManager.unwrap(Session.class);
+        Query query = session.createQuery("DELETE FROM Employee WHERE id =: employeeId");
+        query.setParameter("employeeId", id);
+        query.executeUpdate();
+    }
 }
